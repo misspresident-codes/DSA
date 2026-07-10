@@ -1,15 +1,27 @@
+#include <vector>
+#include <unordered_map>
+
 class Solution {
 public:
-    vector<int> twoSum(vector<int>& nums, int target) {
-        map <int,int>mpp;
-        for(int i =0;i<nums.size();i++){
-            int a = nums[i];
-            int more= target-nums[i];
-            if(mpp.find(more) != mpp.end()){
-                return {mpp[more],i};
+    std::vector<int> twoSum(std::vector<int>& nums, int target) {
+        // Map to store: Key = number, Value = its index
+        std::unordered_map<int, int> num_to_index;
+        
+        for (int i = 0; i < nums.size(); ++i) {
+            int complement = target - nums[i];
+            
+            // Check if the complement already exists in the map
+            if (num_to_index.find(complement) != num_to_index.end()) {
+                // If found, return the index of the complement and the current index
+                return {num_to_index[complement], i};
             }
-            mpp[a]=i;
+            
+            // Otherwise, store the current number and its index in the map
+            num_to_index[nums[i]] = i;
         }
-      return{};
+        
+        // Return an empty vector if no solution is found (guaranteed not to happen per constraints)
+        return {};
     }
 };
+
